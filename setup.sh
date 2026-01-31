@@ -5,6 +5,9 @@
 
 set -e
 
+# スクリプトのディレクトリを取得（グローバル）
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 echo "========================================"
 echo "  Claude Code 環境構築スクリプト"
 echo "========================================"
@@ -39,7 +42,7 @@ check_node() {
         success "Node.js がインストールされています: $NODE_VERSION"
 
         # バージョンが18以上か確認
-        MAJOR_VERSION=$(echo $NODE_VERSION | sed 's/v//' | cut -d. -f1)
+        MAJOR_VERSION=$(echo "$NODE_VERSION" | sed 's/v//' | cut -d. -f1)
         if [ "$MAJOR_VERSION" -lt 18 ]; then
             warning "Node.js 18以上が推奨されます。現在: $NODE_VERSION"
         fi
@@ -69,8 +72,16 @@ check_claude_code() {
         echo ""
         if [[ $REPLY =~ ^[Yy]$ ]]; then
             echo "Claude Code をインストール中..."
-            npm install -g @anthropic-ai/claude-code
-            success "Claude Code がインストールされました"
+            if npm install -g @anthropic-ai/claude-code; then
+                success "Claude Code がインストールされました"
+            else
+                error "インストールに失敗しました"
+                echo "手動でインストールしてください:"
+                echo "  npm install -g @anthropic-ai/claude-code"
+                echo ""
+                echo "権限エラーの場合:"
+                echo "  sudo npm install -g @anthropic-ai/claude-code"
+            fi
         else
             echo "手動でインストールする場合:"
             echo "  npm install -g @anthropic-ai/claude-code"
@@ -105,8 +116,6 @@ setup_claude_md() {
     echo ""
     echo "CLAUDE.md をセットアップ中..."
 
-    SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
     if [ -f "$SCRIPT_DIR/templates/CLAUDE.md" ]; then
         if [ ! -f "./CLAUDE.md" ]; then
             cp "$SCRIPT_DIR/templates/CLAUDE.md" ./CLAUDE.md
@@ -123,8 +132,6 @@ setup_claude_md() {
 copy_sample_commands() {
     echo ""
     echo "サンプルコマンドをセットアップ中..."
-
-    SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
     if [ -d "$SCRIPT_DIR/.claude/commands" ]; then
         if [ ! -d "./.claude/commands" ]; then
@@ -149,8 +156,6 @@ copy_sample_commands() {
 copy_sample_agents() {
     echo ""
     echo "サンプルエージェントをセットアップ中..."
-
-    SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
     if [ -d "$SCRIPT_DIR/.claude/agents" ]; then
         if [ ! -d "./.claude/agents" ]; then
