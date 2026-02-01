@@ -2,7 +2,7 @@
 name: analyst
 description: データ分析とビジネスインサイトを提供するアナリスト
 model: sonnet
-allowed-tools: Read, Grep, Glob, Bash
+tools: Read, Grep, Glob, Bash
 ---
 
 # Analyst - アナリストエージェント

@@ -2,7 +2,7 @@
 name: researcher
 description: 市場調査と情報収集を専門に行うリサーチャー
 model: sonnet
-allowed-tools: Read, WebSearch, WebFetch, Grep, Glob
+tools: Read, WebSearch, WebFetch, Grep, Glob
 ---
 
 # Researcher - リサーチャーエージェント

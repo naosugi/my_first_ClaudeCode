@@ -26,7 +26,9 @@
 │       └── analyst.md         # アナリストエージェント
 └── docs/
     ├── getting-started.md     # 初心者向け入門ガイド（まずこれを読む）
-    └── setup-guide.md         # 詳細セットアップガイド
+    ├── setup-guide.md         # 詳細セットアップガイド
+    ├── commander-guide.md        # 自動化体験ガイド（上級者向け）
+    └── troubleshooting.md     # トラブルシューティング事例集
 ```
 
 ## クイックスタート
@@ -91,6 +93,30 @@ claude
 reviewer, analyst, researcher の3エージェントで並列にこの提案を評価して
 ```
 
+### Phase 4: Commander環境（上級者向け）
+
+「ダッシュボードを眺めて、たまに話しかけるだけ」の自動化体験
+
+```
+あなた: 認証機能を実装して
+
+Commander: タスクを分解しました...この分解で進めてよいですか？
+
+あなた: いいよ
+
+[dashboard.md を眺めながら待つ]
+
+Commander: 全タスク完了。問題ありません。
+```
+
+**仕組み**:
+- Commander（大臣+幹部）が自動的にタスク分解・委譲
+- サブエージェント群（係員）が並列実行
+- dashboard.md でリアルタイム進捗確認
+- 重要な判断は専門家パネルで熟議
+
+**詳細**: [Commanderガイド](docs/commander-guide.md) を参照
+
 ## 4層アーキテクチャ
 
 ```
@@ -145,7 +171,7 @@ cp templates/CLAUDE.md ./CLAUDE.md
 name: my-agent
 description: エージェントの説明
 model: sonnet
-allowed-tools: Read, Grep, Glob
+tools: Read, Grep, Glob
 ---
 
 # My Agent

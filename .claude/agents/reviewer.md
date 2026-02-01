@@ -2,7 +2,7 @@
 name: reviewer
 description: コードの品質、可読性、パフォーマンスをレビュー
 model: sonnet
-allowed-tools: Read, Grep, Glob
+tools: Read, Grep, Glob
 ---
 
 # Reviewer - コードレビュアーエージェント

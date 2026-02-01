@@ -210,7 +210,7 @@ cat > .claude/agents/security-auditor.md << 'EOF'
 name: security-auditor
 description: セキュリティ脆弱性を検出する監査エージェント
 model: sonnet
-allowed-tools: Read, Grep, Glob
+tools: Read, Grep, Glob
 ---
 
 # Security Auditor
@@ -264,6 +264,164 @@ EOF
   }
 }
 ```
+
+---
+
+## Phase 4: Commander環境のセットアップ（上級者向け）
+
+### 4.1 Commander体験とは
+
+「ダッシュボードを眺めて、たまに話しかけるだけ」でタスクが自動的に進む体験です。
+
+**アーキテクチャ**:
+```
+Commander（大臣+幹部）
+  ↓ タスク分解・委譲
+サブエージェント群（係員たち）
+  → architect, implementer, tester, reviewer, debugger
+```
+
+**詳細**: [Commanderガイド](./commander-guide.md) を参照
+
+### 4.2 プラグインのインストール
+
+```bash
+# マーケットプレースを追加
+claude plugin marketplace add wshobson/agents
+claude plugin marketplace add affaan-m/everything-claude-code
+
+# 必須プラグインをインストール
+claude plugin install code-documentation@claude-code-workflows
+claude plugin install debugging-toolkit@claude-code-workflows
+claude plugin install business-analytics@claude-code-workflows
+claude plugin install plugin-dev@claude-plugins-official
+
+# 確認
+claude plugin list
+```
+
+**重要**: コマンド構文に注意
+- ❌ `/plugin marketplace add`
+- ✅ `claude plugin marketplace add`
+
+### 4.3 ディレクトリ構造の作成
+
+```bash
+# プロジェクト固有ディレクトリ
+mkdir -p .claude/{agents,skills,docs}
+mkdir -p context
+
+# グローバルディレクトリ
+mkdir -p ~/.claude/{agents,memory}
+```
+
+### 4.4 必須ファイルの作成
+
+**グローバル設定**:
+
+1. `~/.claude/agents/expert-panel.md` - メタ認知用専門家パネル
+2. `~/.claude/memory/preferences.md` - ユーザーの好み
+
+**プロジェクト設定**:
+
+1. `CLAUDE.md` - Commander（大臣+幹部）の定義
+2. `dashboard.md` - 戦況報告ダッシュボード
+3. `progress.md` - 全サブエージェント共有ログ
+4. `.claude/agents/*.md` - サブエージェント定義
+   - architect.md（設計）
+   - implementer.md（実装）
+   - tester.md（テスト）
+   - debugger.md（デバッグ）
+   - security.md（セキュリティ）
+5. `context/project_context.md` - 7セクションコンテキスト
+
+**テンプレート**: このリポジトリの `.claude/` および `templates/` を参照
+
+### 4.5 セットアップ方法
+
+**オプション1: 自動セットアップ**
+
+```bash
+# このリポジトリをクローン
+git clone https://github.com/naosugi/claude-code-setup.git
+cd claude-code-setup
+
+# Commander環境をセットアップ
+./setup.sh --commander
+```
+
+**オプション2: 手動セットアップ**
+
+```bash
+# プロジェクトで Claude Code を起動
+cd your-project
+claude
+
+# Claude Code内で指示
+```
+
+```
+このプロジェクトにCommander環境をセットアップして。
+
+必要なファイル:
+- CLAUDE.md（Commander定義）
+- dashboard.md（戦況報告）
+- progress.md（作業ログ）
+- .claude/agents/*.md（サブエージェント）
+- context/project_context.md
+
+参照: https://github.com/naosugi/claude-code-setup の .claude/ と templates/
+```
+
+### 4.6 動作確認
+
+```bash
+# 新しいセッションを開始（CLAUDE.mdを反映）
+exit  # または Ctrl+C
+claude
+
+# 簡単なタスクで確認
+```
+
+Claude Code内で:
+```
+簡単なREADME.mdを作成して
+```
+
+**確認ポイント**:
+- [ ] Commander がタスク分解を提示する
+- [ ] 人間に承認を求める
+- [ ] dashboard.md が更新される
+- [ ] progress.md にログが追記される
+
+**dashboard.mdの確認**:
+
+エディタで `dashboard.md` を開き、Markdownプレビュー（Cmd+Shift+V）で表示。
+リアルタイムで更新されることを確認。
+
+### 4.7 使い方の基本
+
+```
+1. やりたいことを伝える
+   > ユーザー認証機能を実装して
+
+2. タスク分解を承認
+   [Commander] この分解で進めてよいですか？
+   > いいよ
+
+3. dashboard.md を眺める
+   [あなたはコーヒーを飲みながら進捗を確認]
+
+4. 判断が必要な時だけ話しかける
+   [Commander] JWT vs OAuth、どちらを採用しますか？
+   > JWTで
+```
+
+### 4.8 詳細ガイド
+
+- [Commanderガイド](./commander-guide.md) - 詳細な使い方
+- [セットアップログ](./shogun-setup-log.md) - 実際のセットアップ記録
+- [要件定義書](./claude-code-shogun-experience-requirements-v5.md) - 技術仕様
 
 ---
 

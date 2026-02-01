@@ -176,6 +176,118 @@ copy_sample_agents() {
     fi
 }
 
+# 関数: Commander環境セットアップ
+setup_commander() {
+    echo ""
+    echo "========================================"
+    echo "  Commander環境セットアップ"
+    echo "========================================"
+    echo ""
+
+    # プラグインインストールの確認
+    echo "必須プラグインをインストールしますか？"
+    echo "- code-documentation@claude-code-workflows"
+    echo "- debugging-toolkit@claude-code-workflows"
+    echo "- business-analytics@claude-code-workflows"
+    echo "- plugin-dev@claude-plugins-official"
+    echo ""
+    read -p "インストールする (y/n): " -n 1 -r
+    echo ""
+
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        echo "マーケットプレースを追加中..."
+        claude plugin marketplace add wshobson/agents 2>/dev/null || true
+        claude plugin marketplace add affaan-m/everything-claude-code 2>/dev/null || true
+
+        echo "プラグインをインストール中..."
+        claude plugin install code-documentation@claude-code-workflows || warning "code-documentation のインストール失敗"
+        claude plugin install debugging-toolkit@claude-code-workflows || warning "debugging-toolkit のインストール失敗"
+        claude plugin install business-analytics@claude-code-workflows || warning "business-analytics のインストール失敗"
+        claude plugin install plugin-dev@claude-plugins-official || warning "plugin-dev のインストール失敗"
+
+        success "プラグインインストール完了"
+    fi
+
+    # Commanderテンプレートのコピー
+    echo ""
+    echo "Commanderテンプレートをコピー中..."
+
+    if [ -f "$SCRIPT_DIR/templates/commander/CLAUDE.md" ]; then
+        if [ ! -f "./CLAUDE.md" ]; then
+            cp "$SCRIPT_DIR/templates/commander/CLAUDE.md" ./CLAUDE.md
+            success "CLAUDE.md をコピーしました"
+        else
+            warning "CLAUDE.md は既に存在します"
+        fi
+    fi
+
+    if [ -f "$SCRIPT_DIR/templates/commander/dashboard.md" ]; then
+        if [ ! -f "./dashboard.md" ]; then
+            cp "$SCRIPT_DIR/templates/commander/dashboard.md" ./dashboard.md
+            success "dashboard.md をコピーしました"
+        else
+            warning "dashboard.md は既に存在します"
+        fi
+    fi
+
+    if [ -f "$SCRIPT_DIR/templates/commander/progress.md" ]; then
+        if [ ! -f "./progress.md" ]; then
+            cp "$SCRIPT_DIR/templates/commander/progress.md" ./progress.md
+            success "progress.md をコピーしました"
+        else
+            warning "progress.md は既に存在します"
+        fi
+    fi
+
+    # グローバルエージェントのコピー
+    echo ""
+    echo "グローバルエージェント（expert-panel）をセットアップ中..."
+
+    if [ ! -d "$HOME/.claude/agents" ]; then
+        mkdir -p "$HOME/.claude/agents"
+    fi
+
+    # expert-panel.md を作成（簡易版）
+    cat > "$HOME/.claude/agents/expert-panel.md" << 'EOF'
+---
+name: expert-panel
+description: |
+  重要な設計判断について5人の専門家視点で熟議する。
+  Use when: アーキテクチャ決定、技術選定、タスク分解の妥当性確認
+model: sonnet
+tools: Read, Glob, Grep
+---
+
+# Expert Panel（専門家パネル）
+
+あなたは5人の専門家を召喚し、熟議を行うファシリテーターです。
+
+## 熟議プロセス
+
+1. 議題の明確化
+2. 専門家選定（議題に最適な5人）
+3. 各専門家の意見
+4. 討議（相違点の明確化）
+5. 総意形成
+6. 推奨アクション
+
+詳細は docs/commander-guide.md を参照。
+EOF
+
+    success "expert-panel.md を作成しました"
+
+    echo ""
+    success "Commander環境セットアップ完了"
+    echo ""
+    echo "次のステップ:"
+    echo "1. 新しいセッションを開始: $ claude"
+    echo "2. 簡単なタスクで動作確認"
+    echo "3. dashboard.md をエディタで開いてプレビュー"
+    echo ""
+    echo "詳細: docs/commander-guide.md を参照"
+    echo ""
+}
+
 # 関数: 最終確認
 final_check() {
     echo ""
@@ -197,20 +309,31 @@ final_check() {
     echo "4. カスタムコマンドを使う:"
     echo "   /project:research AIの最新動向"
     echo ""
+    echo "5. Commander環境（上級者向け）:"
+    echo "   $ ./setup.sh --commander"
+    echo ""
     echo "詳細は docs/setup-guide.md を参照してください。"
     echo ""
 }
 
 # メイン処理
 main() {
-    check_node
-    check_claude_code
-    setup_global_directories
-    setup_claude_md
-    copy_sample_commands
-    copy_sample_agents
-    final_check
+    # --commander オプションのチェック
+    if [ "$1" = "--commander" ]; then
+        check_node
+        check_claude_code
+        setup_global_directories
+        setup_commander
+    else
+        check_node
+        check_claude_code
+        setup_global_directories
+        setup_claude_md
+        copy_sample_commands
+        copy_sample_agents
+        final_check
+    fi
 }
 
 # 実行
-main
+main "$@"
