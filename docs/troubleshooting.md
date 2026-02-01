@@ -91,6 +91,65 @@ tools: Read, Write, Glob, Grep  # ✅ 正しい
 
 ---
 
+## `claude plugin search` は存在しない
+
+**発生日**: 2026-02-01
+
+### 症状
+
+プラグインを検索しようとして以下を実行:
+
+```bash
+claude plugin search commit
+```
+
+結果:
+```
+error: unknown command 'search'
+```
+
+### 根本原因
+
+**`claude plugin search` コマンドは存在しない**
+
+`claude plugin --help` で確認できるサブコマンド:
+- `list` - インストール済みプラグイン一覧
+- `install` - プラグインをインストール
+- `uninstall` - プラグインをアンインストール
+- `enable/disable` - 有効/無効切り替え
+- `marketplace` - マーケットプレイス管理
+- `validate` - プラグイン検証
+
+### 解決方法
+
+**プラグイン検索は `/plugin` コマンドの Discover タブを使用**
+
+```
+/plugin
+```
+
+1. インタラクティブUIが開く
+2. **Tab キー**で「Discover」タブに移動
+3. キーワードを入力して絞り込み（例: "commit", "git"）
+4. プラグインを選択して詳細確認・インストール
+
+### 正しい使い方まとめ
+
+| やりたいこと | 方法 |
+|--------------|------|
+| プラグイン検索 | `/plugin` → Discover タブ |
+| インストール済み確認 | `claude plugin list` または `/plugin` → Installed タブ |
+| 直接インストール | `claude plugin install name@marketplace` |
+| マーケットプレイス追加 | `claude plugin marketplace add URL` |
+
+### 学習ポイント
+
+1. **存在しないコマンドを試したらすぐ記録** - 他の人も同じミスをする
+2. **`--help` で確認** - 正しいサブコマンドを把握
+3. **CLI と `/` コマンドは別物** - CLI は `claude plugin list`、インタラクティブは `/plugin`
+
+---
+
 ## その他の問題
 
 今後、問題が発生したらこのセクションに追加していきます。

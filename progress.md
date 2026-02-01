@@ -7,7 +7,28 @@ Commander は結果集約時にこのファイルを読んで整合性を確認�
 
 ## ログ
 
-- [現在] Commander: 📚 原則6の改善 - 「既存リソースを先に探す」を追加
+- [現在] Commander: 📝 学習の永続化 - `claude plugin search` は存在しない
+  - **きっかけ**: プラグイン検索で `claude plugin search` を試してエラー
+  - **正しい方法**: `/plugin` → Discover タブでキーワード検索
+  - **永続化**: docs/troubleshooting.md に事例追加
+
+- [先ほど] Commander: 🛡️ PreToolUse フック作成完了
+  - **作成ファイル**:
+    - `.claude/hooks/pre-commit-check.sh` - 検証スクリプト
+    - `.claude/settings.json` - フック設定
+  - **チェック内容**:
+    1. `.DS_Store` のコミット防止
+    2. `node_modules/` のコミット防止
+    3. 機密ファイル（.env, .key, .pem等）の検出
+    4. 大きすぎるファイル（5MB以上）の検出
+  - **動作**: Bash ツールで `git commit` 実行時に自動チェック
+  - **次のステップ**: 新セッションで動作確認
+
+- [先ほど] Commander: 🔍 git commit前チェックの調査完了
+  - **調査対象**: 3つのマーケットプレイス + awesome-claude-code + Web検索
+  - **結果**: 公式プラグインに該当なし → フック作成を選択
+
+- [先ほど] Commander: 📚 原則6の改善 - 「既存リソースを先に探す」を追加
   - **きっかけ**: `.DS_Store`問題で、既存プラグインを探さずにスキル化しようとした
   - **学習**: 新規作成前に `/plugin` でキーワード検索すべき
   - **永続化**: CLAUDE.md原則6に追加
