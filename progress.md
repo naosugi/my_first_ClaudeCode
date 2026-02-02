@@ -90,8 +90,64 @@ Commander は結果集約時にこのファイルを読んで整合性を確認�
 | templates/commander/*.md | Commander | Commanderテンプレート |
 | setup.sh | Commander | --commanderオプション追加 |
 | CLAUDE.md | Commander | Commander ロール定義 |
-| dashboard.md | Commander | 戦況報告ダッシュボード |
+| dashboard.md | Commander | 状況報告ダッシュボード |
 | progress.md | Commander | 共有作業ログ |
+
+- [2026-02-02] Commander: 矛盾・不整合調査完了（3並列エージェント）
+  - **調査内容**:
+    1. コードベース全体の矛盾調査（Explore）
+    2. エージェント定義整合性確認（reviewer）
+    3. ドキュメント相互参照確認（Explore）
+  - **発見した問題**: 7件（高3、中2、低2）
+  - **次のステップ**: 修正実施
+
+- [2026-02-02 00:15] implementer: ドキュメント破損リンク修正
+  - **修正ファイル**:
+    - docs/setup-guide.md（3箇所修正）
+      - 行420-422: 破損リンク2件削除（セットアップログ、要件定義書）
+      - 行334-335: `context/project_context.md` 参照削除
+      - 行368-369: `context/project_context.md` 参照削除
+    - docs/commander-guide.md（2箇所修正）
+      - 行614-616: 破損リンク2件削除（要件定義書、セットアップログ）
+      - 行330-331: `context/project_context.md` 参照削除
+  - **成果物**: 修正済みドキュメント2ファイル
+  - **次のステップ**: なし
+
+- [2026-02-02 00:30] implementer: CLAUDE.md にフック説明とディレクトリ使い分け追加
+  - **追加内容**:
+    1. 「フック設定」セクション（PreToolUse、SessionEnd の説明）
+    2. 「ディレクトリの使い分け」（.claude/docs/ と .claude/skills/ の用途）
+  - **成果物**: /Users/naosugi/Documents/GitHub/my_first_ClaudeCode/CLAUDE.md
+  - **次のステップ**: なし
+
+- [2026-02-02 00:45] implementer: templates/commander/CLAUDE.md に学習事例追加
+  - **追加内容**:
+    1. 原則6「不具合を見逃さず、根本原因を追求せよ」に詳細な調査手順と具体例（例1: allowed-toolsエラー、例2: .DS_Storeコミット）
+    2. 「ディレクトリの使い分け」セクション
+    3. 「フック設定」セクション
+  - **成果物**: /Users/naosugi/Documents/GitHub/my_first_ClaudeCode/templates/commander/CLAUDE.md
+  - **次のステップ**: なし
+
+- [2026-02-02 01:00] implementer: 用語統一（戦況→状況、戦果→成果）
+  - **修正ファイル一覧と置換数**:
+    1. docs/commander-guide.md（6箇所）
+       - 「戦況報告」→「状況報告」: 2箇所
+       - 「本日の戦果」→「本日の成果」: 2箇所
+       - 「戦果」→「成果」: 1箇所
+       - 「✅」→「完了」: 1箇所（表記統一）
+    2. docs/setup-guide.md（2箇所）
+       - 「戦況報告ダッシュボード」→「状況報告ダッシュボード」: 2箇所
+    3. .claude/hooks/session-end-check.sh（1箇所）
+       - 「本日の戦果」→「本日の成果」: 1箇所
+    4. templates/commander/CLAUDE.md（3箇所）
+       - 「本日の戦果」→「本日の成果」: 3箇所
+    5. CLAUDE.md（3箇所）
+       - 「本日の戦果」→「本日の成果」: 3箇所
+    6. templates/commander/dashboard.md（2箇所）
+       - 「戦況報告」→「状況報告」: 1箇所
+       - 「本日の戦果」→「本日の成果」: 1箇所
+  - **合計置換数**: 17箇所
+  - **次のステップ**: なし
 
 ---
 

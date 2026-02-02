@@ -325,7 +325,7 @@ mkdir -p ~/.claude/{agents,memory}
 **プロジェクト設定**:
 
 1. `CLAUDE.md` - Commander（大臣+幹部）の定義
-2. `dashboard.md` - 戦況報告ダッシュボード
+2. `dashboard.md` - 状況報告ダッシュボード
 3. `progress.md` - 全サブエージェント共有ログ
 4. `.claude/agents/*.md` - サブエージェント定義
    - architect.md（設計）
@@ -333,7 +333,6 @@ mkdir -p ~/.claude/{agents,memory}
    - tester.md（テスト）
    - debugger.md（デバッグ）
    - security.md（セキュリティ）
-5. `context/project_context.md` - 7セクションコンテキスト
 
 **テンプレート**: このリポジトリの `.claude/` および `templates/` を参照
 
@@ -365,10 +364,9 @@ claude
 
 必要なファイル:
 - CLAUDE.md（Commander定義）
-- dashboard.md（戦況報告）
+- dashboard.md（状況報告）
 - progress.md（作業ログ）
 - .claude/agents/*.md（サブエージェント）
-- context/project_context.md
 
 参照: https://github.com/naosugi/claude-code-setup の .claude/ と templates/
 ```
@@ -420,8 +418,6 @@ Claude Code内で:
 ### 4.8 詳細ガイド
 
 - [Commanderガイド](./commander-guide.md) - 詳細な使い方
-- [セットアップログ](./shogun-setup-log.md) - 実際のセットアップ記録
-- [要件定義書](./claude-code-shogun-experience-requirements-v5.md) - 技術仕様
 
 ---
 

@@ -124,18 +124,18 @@ Commander: 専門家パネルの結論: JWT推奨
 dashboard.md をエディタで開いてプレビュー表示（Cmd+Shift+V）すると、リアルタイムで進捗が確認できます。
 
 ```markdown
-# 📊 戦況報告
+# 状況報告
 
-## 🔄 進行中
+## 進行中
 | 時刻 | 任務 | 担当 | 状態 |
 | 10:30 | API設計 | architect | 実行中 |
 | 10:30 | DB設計 | architect | 実行中 |
 
-## 🚨 要対応
+## 要対応
 - JWT vs OAuth どちらを採用？
 
-## ✅ 本日の戦果
-| 10:25 | 要件分析 | Commander | ✅ |
+## 本日の成果
+| 10:25 | 要件分析 | Commander | 完了 |
 ```
 
 ### 5. スキルの育成
@@ -209,7 +209,7 @@ Commander: このスキルを保存しますか？
 
 3. **ダッシュボードを常に更新せよ**
    - サブエージェント起動時 → 「進行中」に追加
-   - サブエージェント完了時 → 「戦果」に移動
+   - サブエージェント完了時 → 「成果」に移動
    - 判断が必要な時 → 「要対応」に追加
 
 ---
@@ -329,7 +329,6 @@ tools: Read, Glob, Grep
 - dashboard.md（戦況報告）
 - progress.md（作業ログ）
 - .claude/agents/ 配下のサブエージェント
-- context/project_context.md
 
 参照: このリポジトリの .claude/agents/ と templates/
 ```
@@ -398,9 +397,9 @@ Claude Code内で:
 エディタで `dashboard.md` を開き、Markdownプレビュー（Cmd+Shift+V）で表示:
 
 ```markdown
-# 📊 戦況報告
+# 状況報告
 
-## 🚨 要対応
+## 要対応
 <!-- あなたの判断が必要な項目 -->
 
 ### スキル化候補【承認待ち】
@@ -410,14 +409,14 @@ Claude Code内で:
 ### 判断待ち
 - JWT vs OAuth どちらを採用？
 
-## 🔄 進行中
+## 進行中
 <!-- 現在作業中のタスク -->
 | 時刻 | 任務 | 担当 | 状態 |
 | 10:30 | API設計 | architect | 実行中 |
 
-## ✅ 本日の戦果
+## 本日の成果
 <!-- 完了したタスク -->
-| 10:25 | 要件分析 | Commander | ✅ |
+| 10:25 | 要件分析 | Commander | 完了 |
 ```
 
 **リアルタイム更新**: サブエージェントが作業を進めると自動的に更新されます。
@@ -612,6 +611,4 @@ claude plugin install code-documentation@claude-code-workflows
 ---
 
 **参考資料**:
-- [要件定義書](./claude-code-shogun-experience-requirements-v5.md)
-- [セットアップログ](./shogun-setup-log.md)
 - [詳細セットアップガイド](./setup-guide.md)
