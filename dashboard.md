@@ -1,6 +1,6 @@
 # 戦況報告
 
-最終更新: 2026-02-01 現在
+最終更新: 2026-02-01
 
 ---
 
@@ -29,30 +29,47 @@
 ## 進行中
 <!-- 現在作業中のタスク -->
 
-| 時刻 | 任務 | 担当 | 状態 |
-|------|------|------|------|
-| - | - | - | - |
+| 任務 | 担当 | 状態 |
+|------|------|------|
+| - | - | - |
 
 ---
 
 ## 本日の戦果
 <!-- 完了したタスク -->
 
-| 時刻 | 任務 | 担当 | 成果物 |
-|------|------|------|--------|
-| 現在 | 🛡️ PreToolUse フック作成 | Commander | .claude/hooks/pre-commit-check.sh, .claude/settings.json |
-| 先ほど | 📚 原則6改善 + .gitignore追加 | Commander | CLAUDE.md更新、.gitignore作成 |
-| 先ほど | 🏷️ 用語統一（Shogun → Commander） | Commander | 全ファイル更新完了 |
-| 先ほど | 🔧 重大バグ修正 + 学習の永続化 | Commander | CLAUDE.md原則追加、troubleshooting.md作成 |
-| 先ほど | Commander知見のドキュメント化 | Commander | docs/commander-guide.md, templates/commander/, setup.sh更新 |
-| 08:15 | Commander環境セットアップ | Commander | CLAUDE.md, agents/, dashboard.md |
+| 任務 | 担当 | 成果物 |
+|------|------|--------|
+| 思想実現度調査 + 20個の改善実施 | Commander | 下記参照 |
+
+### 改善内容
+1. **時刻表記統一**: 「現在」「先ほど」を廃止、日付ベースに
+2. **ライフサイクル管理**: CLAUDE.md にセッション開始/終了ルール追加
+3. **エージェント定義修正**: 8エージェント全てに「Commanderではない」宣言追加
+4. **情報集約原則**: dashboard.mdだけ見ればOKのルールを明文化
+5. **.claude/docs/作成**: サブエージェント出力先ディレクトリ作成
+6. **Task使用方法修正**: subagent_typeの正しい仕様をCLAUDE.mdに反映
+7. **エージェントdescription強化**: 8エージェント全て自動選択されやすい形式に統一
+8. **用語統一**: "殿"→"人間"に修正（CLAUDE.md 2箇所）
+9. **不要ドキュメント削除**: shogun-experience-requirements-v5.md, shogun-setup-log.md
+10. **setup.sh整合性確認**: 問題なし ✅
+11. **progress.md記録必須**: 全8エージェントに「完了時の手順【必須】」強化
+12. **整合性チェックリスト**: CLAUDE.mdに5項目のチェックリスト追加
+13. **エラー時エスカレーション**: 全8エージェントに「エラー発生時の対応【必須】」追加
+14. **フィードバック経路**: implementer/debugger に設計問題→architect報告経路追加
+15. **skill活用原則**: CLAUDE.mdに「スキルを活用し、学習を蓄積せよ」追加
+16. **動的skill検索**: 全8エージェントに「スキル活用【推奨】」セクション追加
+17. **初期skill作成**: .claude/skills/error-handling/SKILL.md 作成
+18. **skillsフィールド**: 全8エージェントのフロントマターに skills フィールド追加
+19. **原則0追加**: 「トラブルは対策前進せず、真因解決優先」をCLAUDE.mdに追加
+20. **自動永続化**: セッション終了時に学びを自動で永続化するルールを明記
 
 ---
 
 ## 学習したスキル
 <!-- 承認されたスキル -->
 
-- なし（運用中に増えていきます）
+- **error-handling**: エラー発生時の標準対応パターン（初期skill）
 
 ---
 
